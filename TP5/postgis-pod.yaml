@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgis-pod
+  labels:
+    app: postgis
+spec:
+  containers:
+  - name: postgis
+    image: postgis/postgis:16-3.4  # Version récente (ajustez : PostgreSQL 16 + PostGIS 3.4)
+    env:
+    - name: POSTGRES_DB
+      value: gisdb
+    - name: POSTGRES_USER
+      value: jj
+    - name: POSTGRES_PASSWORD
+      value: jojolapin
+    ports:
+    - containerPort: 5432
+    # Optionnel : volume persistant
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: postgis-storage
+  volumes:
+  - name: postgis-storage
+    emptyDir: {}  # Remplacez par PersistentVolumeClaim en prod
